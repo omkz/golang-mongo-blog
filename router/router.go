@@ -1,11 +1,10 @@
-package config
+package router
 
 import (
-	"../models"
 	"github.com/gorilla/mux"
+	"github.com/omkz/golang-mongo-blog/models"
 )
 
-// Router is exported and used in main.go
 func Router() *mux.Router {
 
 	router := mux.NewRouter()

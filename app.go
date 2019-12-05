@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"./config"
+	"github.com/omkz/golang-mongo-blog/router"
 )
 
 func main() {
-	router := config.Router()
+	router := router.Router()
 	fmt.Println("Starting server on the port 8080...")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
