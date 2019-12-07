@@ -2,15 +2,10 @@ package models
 
 import (
 	"context"
-	"encoding/json"
-
-
-	"log"
-	"net/http"
-
 	"github.com/omkz/golang-mongo-rest/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"log"
 )
 
 type Post struct {
@@ -20,14 +15,7 @@ type Post struct {
 	Content     string             `json:"content,omitempty"`
 }
 
-func GetAllPosts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	payload := getAllPost()
-	json.NewEncoder(w).Encode(payload)
-}
-
-func getAllPost() []primitive.M {
+func PostAll() []primitive.M {
 	collection := config.DB.Database("test").Collection("todolist")
 	cur, err := collection.Find(context.Background(), bson.D{{}})
 	if err != nil {
