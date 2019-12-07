@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/omkz/golang-mongo-blog/models"
+	"github.com/omkz/golang-mongo-rest/models"
 )
 
 func Router() *mux.Router {

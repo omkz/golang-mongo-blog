@@ -4,18 +4,22 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
-func Connect() (*mongo.Database, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+var DB *mongo.Client
+
+func ConnectDB(uri string) {
+	var err error
+	DB, err = mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
-		return nil, err
+		log.Panic(err)
 	}
 
-	err = client.Connect(context.Background())
+	err = DB.Connect(context.Background())
 	if err != nil {
-		return nil, err
+		log.Panic(err)
 	}
 
-	return client.Database("todolist"), nil
 }
+

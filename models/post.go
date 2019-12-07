@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
+
 	"log"
 	"net/http"
 
-	"github.com/omkz/golang-mongo-blog/config"
+	"github.com/omkz/golang-mongo-rest/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -27,12 +28,8 @@ func GetAllPosts(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAllPost() []primitive.M {
-	db, err := config.Connect()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	cur, err := db.Collection.Find(context.Background(), bson.D{{}})
+	collection := config.DB.Database("test").Collection("todolist")
+	cur, err := collection.Find(context.Background(), bson.D{{}})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,7 +42,6 @@ func getAllPost() []primitive.M {
 			log.Fatal(e)
 		}
 		results = append(results, result)
-
 	}
 
 	if err := cur.Err(); err != nil {
