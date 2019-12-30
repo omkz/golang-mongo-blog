@@ -1,10 +1,10 @@
 package models
 
 import (
-	"context"
-	"github.com/omkz/golang-mongo-rest/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/omkz/golang-mongo-rest/config"
+	"context"
 	"log"
 )
 
@@ -15,27 +15,36 @@ type Post struct {
 	Content     string             `json:"content,omitempty"`
 }
 
-func PostAll() []primitive.M {
-	collection := config.DB.Database("test").Collection("todolist")
-	cur, err := collection.Find(context.Background(), bson.D{{}})
+func PostAll() (posts []*Post, err error) {
+
+	collection := config.DB.Database("blog").Collection("posts")
+
+	// Passing bson.D{{}} as the filter matches all documents in the collection
+	cur, err := collection.Find(context.TODO(),bson.D{{}})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var results []primitive.M
-	for cur.Next(context.Background()) {
-		var result bson.M
-		e := cur.Decode(&result)
-		if e != nil {
-			log.Fatal(e)
+	// Here's an array in which you can store the decoded documents
+	var results []*Post
+
+	// Finding multiple documents returns a cursor
+	// Iterating through the cursor allows us to decode documents one at a time
+	for cur.Next(context.TODO()) {
+		var post Post
+		err = cur.Decode(&post)
+		if err != nil {
+			log.Fatal("Error on Decoding the document", err)
 		}
-		results = append(results, result)
+		results = append(results, &post)
 	}
 
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	cur.Close(context.Background())
-	return results
+	// Close the cursor once finished
+	cur.Close(context.TODO())
+
+	return results, nil
 }
