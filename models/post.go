@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/omkz/golang-mongo-rest/config"
@@ -47,4 +48,18 @@ func PostAll() (posts []*Post, err error) {
 	cur.Close(context.TODO())
 
 	return results, nil
+}
+
+func Create(post *Post) error {
+
+	collection := config.DB.Database("blog").Collection("posts")
+
+	insertResult, err := collection.InsertOne(context.TODO(), post)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
+
+	return  nil
 }
