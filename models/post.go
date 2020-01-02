@@ -3,17 +3,16 @@ package models
 import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/omkz/golang-mongo-rest/config"
 	"context"
 	"log"
 )
 
 type Post struct {
-	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Title       string             `json:"title,omitempty"`
-	Description string             `json:"description,omitempty"`
-	Content     string             `json:"content,omitempty"`
+	ID         string     `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Content     string    `json:"content"`
 }
 
 func PostAll() (posts []*Post, err error) {
