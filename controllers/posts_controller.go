@@ -17,7 +17,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	var post models.Post
 	decoder := json.NewDecoder(r.Body)
 	_ = decoder.Decode(&post)
-	_ = models.Create(&post)
+	_ = models.PostCreate(&post)
 
 	response, _ := json.Marshal(post)
 	w.Header().Set("Content-Type", "application/json")

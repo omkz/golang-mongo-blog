@@ -49,7 +49,7 @@ func PostAll() (posts []*Post, err error) {
 	return results, nil
 }
 
-func Create(post *Post) error {
+func PostCreate(post *Post) error {
 
 	collection := config.DB.Database("blog").Collection("posts")
 
