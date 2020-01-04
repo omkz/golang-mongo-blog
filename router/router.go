@@ -11,6 +11,7 @@ func Router() *mux.Router {
 
 	router.HandleFunc("/posts", controllers.GetAllPosts).Methods("GET", "OPTIONS")
 	router.HandleFunc("/posts", controllers.CreatePost).Methods("POST")
+	router.HandleFunc("/posts/{id}", controllers.GetPostById).Methods("GET")
 
 	return router
 }

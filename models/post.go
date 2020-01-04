@@ -62,3 +62,15 @@ func PostCreate(post *Post) error {
 
 	return  nil
 }
+
+func PostFindById(id string) (*Post, error) {
+	post := new(Post)
+	filter := bson.D{{"id", id}}
+	err := config.DB.Database("blog").Collection("posts").FindOne(context.TODO(), filter).Decode(&post)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return post, nil
+}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/omkz/golang-mongo-rest/models"
 	"net/http"
+	"github.com/gorilla/mux"
 )
 
 func GetAllPosts(w http.ResponseWriter, r *http.Request) {
@@ -18,6 +19,17 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	_ = decoder.Decode(&post)
 	_ = models.PostCreate(&post)
+
+	response, _ := json.Marshal(post)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write(response)
+}
+
+func GetPostById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	post, _ := models.PostFindById(id)
 
 	response, _ := json.Marshal(post)
 	w.Header().Set("Content-Type", "application/json")
