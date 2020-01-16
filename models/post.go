@@ -69,7 +69,7 @@ func PostFindById(id string) (*Post, error) {
 	err := config.DB.Database("blog").Collection("posts").FindOne(context.TODO(), filter).Decode(&post)
 
 	if err != nil {
-		fmt.Println("Error!", err.Error())
+		log.Println("Error!", err.Error())
 	}
 
 	return post, nil
