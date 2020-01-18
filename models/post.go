@@ -70,7 +70,9 @@ func PostCreate(post *Post) error {
 
 func PostFindById(id string) (*Post, error) {
 	post := new(Post)
-	filter := bson.D{{"id", id}}
+	postID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": postID}
+
 	err := config.DB.Database("blog").Collection("posts").FindOne(context.TODO(), filter).Decode(&post)
 
 	if err != nil {
