@@ -1,18 +1,23 @@
 package models
 
 import (
-	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
-	"github.com/omkz/golang-mongo-rest/config"
 	"context"
+	"fmt"
 	"log"
+	"time"
+
+	"github.com/omkz/golang-mongo-rest/config"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Post struct {
-	ID         string     `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Content     string    `json:"content"`
+	ID          primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Title       string             `json:"title"`
+	Description string             `json:"description"`
+	Content     string             `json:"content"`
+	CreatedAt   time.Time          `bson:"created_at" json:"created_at,omitempty"`
+	UpdatedAt   time.Time          `bson:"updated_at" json:"updated_at,omitempty"`
 }
 
 func PostAll() (posts []*Post, err error) {
@@ -20,7 +25,7 @@ func PostAll() (posts []*Post, err error) {
 	collection := config.DB.Database("blog").Collection("posts")
 
 	// Passing bson.D{{}} as the filter matches all documents in the collection
-	cur, err := collection.Find(context.TODO(),bson.D{{}})
+	cur, err := collection.Find(context.TODO(), bson.D{{}})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,7 +65,7 @@ func PostCreate(post *Post) error {
 
 	fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 
-	return  nil
+	return nil
 }
 
 func PostFindById(id string) (*Post, error) {
