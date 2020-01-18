@@ -2,7 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"time"
 	"github.com/omkz/golang-mongo-rest/models"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	// "go.mongodb.org/mongo-driver/bson"
 	"net/http"
 	"github.com/gorilla/mux"
 )
@@ -16,6 +19,11 @@ func GetAllPosts(w http.ResponseWriter, r *http.Request) {
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	var post models.Post
+	
+    post.ID = primitive.NewObjectID()
+	post.CreatedAt = time.Now()
+	post.UpdatedAt = time.Now()
+	
 	decoder := json.NewDecoder(r.Body)
 	_ = decoder.Decode(&post)
 	_ = models.PostCreate(&post)
