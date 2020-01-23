@@ -81,3 +81,17 @@ func PostFindById(id string) (*Post, error) {
 
 	return post, nil
 }
+
+func PostDelete(id string) error{
+
+	filter := bson.D{{"id", id}}
+
+	_, err := config.DB.Database("blog").Collection("posts").DeleteOne(context.TODO(), filter)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return nil
+
+}

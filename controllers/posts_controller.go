@@ -44,3 +44,12 @@ func GetPostById(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, _ = w.Write(response)
 }
+
+func DeletePost(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	_ = models.PostDelete(id)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
